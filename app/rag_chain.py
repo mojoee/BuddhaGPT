@@ -40,4 +40,4 @@ final_chain  = (
     | llm
     | StrOutputParser()
 ).with_types(input_type=RagInput)
-FINAL_CHAIN_INVOKE = final_chain.astream_log({"question": "Why did Epic sue Apple?"})
+# FINAL_CHAIN_INVOKE = final_chain.astream_log({"question": "Why did Epic sue Apple?"})
