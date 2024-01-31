@@ -36,10 +36,19 @@ LangSmith is currently in private beta, you can sign up [here](https://smith.lan
 If you don't have access, you can skip this section
 
 
+
 ```shell
 export LANGCHAIN_TRACING_V2=true
 export LANGCHAIN_API_KEY=<your-api-key>
 export LANGCHAIN_PROJECT=<your-project>  # if not specified, defaults to "default"
+```
+
+## Running the pgvector database
+You can run the following to get the docker container of the pgvector DB running
+
+```bash
+docker run --name pgvector -e POSTGRES_HOST_AUTH_METHOD=trust -p 5432:5432 -
+d ankane/pgvector
 ```
 
 ## Launch LangServe
@@ -77,3 +86,7 @@ We also expose port 8080 with the `-p 8080:8080` option.
 ```shell
 docker run -e OPENAI_API_KEY=$OPENAI_API_KEY -p 8080:8080 my-langserve-app
 ```
+
+
+### Sources
+[video1](https://www.youtube.com/watch?v=UwgZmrRAgQ4&t=1094s)
