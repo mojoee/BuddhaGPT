@@ -18,7 +18,7 @@ loader = DirectoryLoader(
     show_progress=True,
     max_concurrency=50,
     loader_cls=UnstructuredPDFLoader,
-    sample_size=4
+    sample_size=1
 )
 
 docs = loader.load()
@@ -46,6 +46,6 @@ PGVector.from_documents(
     documents=chunks,
     embedding=embeddings,
     collection_name=PG_COLLECTION_NAME,
-    connection_string="postgresql+psycopg://ma012@localhost:5432/pdf_rag_vectors",
+    connection_string="postgresql+psycopg://postgres:qwer1234@localhost:5433/vector_rag",
     pre_delete_collection=True
 )

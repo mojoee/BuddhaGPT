@@ -13,7 +13,7 @@ load_dotenv()
 
 vector_store = PGVector(
     collection_name=PG_COLLECTION_NAME,
-    connection_string="postgresql+psycopg://ma012@localhost:5432/pdf_rag_vectors",
+    connection_string="postgresql+psycopg://postgres:qwer1234@localhost:5433/vector_rag",
     embedding_function=OpenAIEmbeddings()
 )
 
