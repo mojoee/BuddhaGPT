@@ -51,6 +51,13 @@ docker run --name pgvector -e POSTGRES_HOST_AUTH_METHOD=trust -p 5432:5432 -
 d ankane/pgvector
 ```
 
+## sample questions for buddhagpt
+
+2. 請問六祖大師的定慧等持是什麼意思？
+3. 請問中國禪宗如何破我執？
+4.請問以禪宗的觀點，一個人開悟之後要如何保證？
+5. 請用中國禪宗的概念解釋見境之心， 如何透過外境反觀我們的心?
+
 ## Launch LangServe
 
 ```bash
