@@ -12,18 +12,6 @@ from langchain.text_splitter import CharacterTextSplitter
 
 load_dotenv()
 
-loader = DirectoryLoader(
-    os.path.abspath('./source_docs'),
-    glob="**/*.pdf", 
-    # use_multithreading=True,
-    show_progress=True,
-    max_concurrency=50,
-    loader_cls=UnstructuredPDFLoader,
-    sample_size=1
-)
-
-docs = loader.load()
-
 def get_embeddings():
     if EMBEDDING_MODEL_NAME == "BAAI/bge-small-en":
         model_kwargs = {"device": "cuda"}
@@ -39,6 +27,7 @@ def get_embeddings():
             model_name=EMBEDDING_MODEL_NAME, model_kwargs=model_kwargs, encode_kwargs=encode_kwargs
         )
 
+
     elif EMBEDDING_MODEL_NAME == "openAI":
         embeddings = OpenAIEmbeddings(
             model=EMBEDDING_MODEL
@@ -46,30 +35,42 @@ def get_embeddings():
 
     return embeddings
 
-embeddings = get_embeddings()
-
-if TEXT_SPLITTER=="character":
-    text_splitter = CharacterTextSplitter(        
-    separator = "",
-    chunk_size = 50,
-    chunk_overlap  = 10,
-    length_function = len,
-    )
-elif TEXT_SPLITTER=="semantic":
-    text_splitter = SemanticChunker(
-        embeddings=embeddings
-    )
-else:
-    print("Choose text splitter: semantic|character")
-
-
-
-chunks = text_splitter.split_documents(docs)
-
-PGVector.from_documents(
-    documents=chunks,
-    embedding=embeddings,
-    collection_name=PG_COLLECTION_NAME,
-    connection_string=POSTGRES_CONNECTION,
-    pre_delete_collection=True
+loader = DirectoryLoader(
+    os.path.abspath('./source_docs'),
+    glob="**/*.pdf", 
+    # use_multithreading=True,
+    show_progress=True,
+    max_concurrency=50,
+    loader_cls=UnstructuredPDFLoader,
+    sample_size=1
 )
+
+if __name__ == "__main__":
+
+    docs = loader.load()
+
+    embeddings = get_embeddings()
+
+    if TEXT_SPLITTER=="character":
+        text_splitter = CharacterTextSplitter(        
+        separator = "",
+        chunk_size = 50,
+        chunk_overlap  = 10,
+        length_function = len,
+        )
+    elif TEXT_SPLITTER=="semantic":
+        text_splitter = SemanticChunker(
+            embeddings=embeddings
+        )
+    else:
+        print("Choose text splitter: semantic|character")
+
+    chunks = text_splitter.split_documents(docs)
+
+    PGVector.from_documents(
+        documents=chunks,
+        embedding=embeddings,
+        collection_name=PG_COLLECTION_NAME,
+        connection_string=POSTGRES_CONNECTION,
+        pre_delete_collection=True
+    )
